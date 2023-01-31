@@ -18,7 +18,7 @@ Route::controller(App\Http\Controllers\userController::class)->prefix('user')->g
     Route::post('register','store');
     Route::post('login','show');
 });
-Route::controller(App\Http\Controllers\gameController::class)->prefix('game')->group(function(){
+Route::middleware('auth:api')->controller(App\Http\Controllers\gameController::class)->prefix('game')->group(function(){
     Route::post('add','store');
     Route::get('games','index');
     Route::get('show','show');

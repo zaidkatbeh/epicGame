@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\userRequest;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Validator;
 class userController extends Controller
 {
@@ -36,20 +37,20 @@ class userController extends Controller
     }
     public function show(Request $Request)
     {
-        $user=User::where('email',$Request['email'])->get()->first();
-        if($user==null)
-        return response()->json([
-            'states'=>0,
-            'error'=>'there is no user with this email'
+        $login=$Request->validate([
+            'email'=>'required|string',
+            'password'=>'required|string',
         ]);
-        if($user->password==$Request['password'])
-        return response()->json([
-            'states'=>1,
-            'user'=>$user
-        ]);
-        else return response()->json([
-            'states'=>0,
-            'error'=>'password incorrect'
-        ]);
+       if(!Auth::attempt($login))
+       return response([
+        'message'=>'error nigga',
+       ]);
+       
+       $token=Auth::user()->createToken('token')->accessToken;
+       return response([
+       'user'=>Auth::user(),
+       'token'=>$token,
+       ]);
+
     }
 }
