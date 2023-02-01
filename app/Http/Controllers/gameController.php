@@ -7,10 +7,7 @@ use Illuminate\Http\Request;
 class gameController extends Controller
 {
 
-    public function __constructor ()
-    {
-        $this->middleware('auth:api');
-    }
+
     public function store(Request $Request)
     {
         $game=new game;

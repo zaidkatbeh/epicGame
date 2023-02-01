@@ -20,6 +20,6 @@ Route::controller(App\Http\Controllers\userController::class)->prefix('user')->g
 });
 Route::middleware('auth:api')->controller(App\Http\Controllers\gameController::class)->prefix('game')->group(function(){
     Route::post('add','store');
-    Route::get('games','index');
     Route::get('show','show');
 });
+Route::get('game/games',[App\Http\Controllers\gameController::class,'index']);
